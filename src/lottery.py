@@ -9,6 +9,8 @@ def count_duplicates(items):
 
 
 def generate(num=8, min=1, max=20, allowed_duplicates=2):
+    assert allowed_duplicates > 0 or max - min >= num, 'infinity loop'
+
     numbers = []
     while len(numbers) < num:
         new_number = randint(min, max)

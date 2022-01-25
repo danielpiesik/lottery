@@ -1,3 +1,4 @@
+from parameterized import parameterized
 from unittest import TestCase, mock
 
 from .lottery import count_duplicates, generate
@@ -36,3 +37,15 @@ class LotteryGenerateTestCase(TestCase):
         randint_mock.side_effect = [4, 3, 2, 1]
         self.assertListEqual(generate(num=4), [1, 2, 3, 4])
         self.assertEqual(4, randint_mock.call_count)
+
+    def test_empty_list_for_negative_num_parameter(self):
+            self.assertListEqual(generate(num=-1), [])
+
+    @parameterized.expand([
+        (2, 1, 1),
+        (3, 1, 2),
+        (4, 1, 3),
+    ])
+    def test_prevent_infinity_loop(self, num, min, max):
+            with self.assertRaises(AssertionError):
+                generate(num=num, min=min, max=max, allowed_duplicates=0)
